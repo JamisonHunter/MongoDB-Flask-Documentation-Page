@@ -1,2 +1,3 @@
-# Arduino-Light-Documentation-Page
- This is a technical documentation page detailing how to build a solar powered light using an Arduino and bright LEDs.
+![Website Image](image.png)
+# MongoDB Flask App Documentation Page
+This documentation page explains a high level overview with code examples of how to connect a MongoDB database to a Flask app. 
