@@ -1,0 +1,122 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-image: url(https://images.hdqwalls.com/wallpapers/programming-syntax-5k-on.jpg);
+    background-size: cover;
+    background-repeat: repeat;
+    color: white;
+    font-family: sans-serif;
+    margin: 0;
+    display: flex;;
+}
+
+main {
+    background-color: rgba(0, 0, 0, 0.90);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto; 
+    margin-top: 69px;
+    height: 100%;
+}
+
+a {
+    color: cyan;
+    text-decoration: none;
+}
+
+a:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.container {
+    background-color: #181818;
+    margin-left: 150px;
+    margin-right: 150px;
+    border-radius: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.link-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.link-container a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.code-container {
+    background-color: black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+code {
+    background-color: black;
+    color: lightgreen;
+}
+
+#navbar {
+    height: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto;
+    border-bottom: 2px solid purple;
+}
+
+#navbar h4 {
+    padding-top: 4px;
+    padding-left: 20px;
+}
+
+#navbar ul {
+    list-style: none;
+    display: flex;
+}
+
+#navbar li {
+    margin-top: 8px;
+    margin-right: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    #navbar {
+        flex-direction: column;
+        height: 100px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    #navbar h4 {
+        /* This will need to be adjusted as list items are added. */
+        padding-top: 170px;
+        padding-left: 10px;
+    }
+
+    #navbar ul {
+        flex-direction: column;
+    }
+
+    main {
+        margin-top: 100px;
+    }
+
+    .container {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+}

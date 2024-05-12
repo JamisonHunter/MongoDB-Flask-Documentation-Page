@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav id="navbar">
+        <header><h4>MongoDB Flask App Documentation</h4></header>
+        <ul>
+            <li><a class="nav-link" href="#introduction">Introduction</a></li>
+            <li><a class="nav-link" href="#flask_app">Flask App</a></li>
+            <li><a class="nav-link" href="#atlas">Atlas</a></li>
+            <li><a class="nav-link" href="#pymongo">Pymongo</a></li>
+            <li><a class="nav-link" href="#resources">Resources</a></li>
+        </ul>
+    </nav>
+    <main id="main-doc">
+        <div class="container">
+            <section class="main-section" id="introduction">
+                <header><h1>Introduction</h1></header>
+                <p>This is meant to be a braud overview of the technologies necessary 
+                    to build a Python Flask application with connectivity to a MongoDB 
+                    database. Please see the provided links to learn more about Flask and 
+                    MongoDB. Put simply, Flask is a lightweight web framework utilizing the Python 
+                    programming language. MongoDB is a document based database platform. The documents 
+                    in MongoDB are similar to JSON dictionaries. 
+                </p>
+                <div class="link-container">
+                    <a target="_blank" href="https://flask.palletsprojects.com/en/3.0.x/quickstart/">Flask Quickstart</a>
+                    <a target="_blank" href="https://www.mongodb.com/docs/atlas/getting-started/">Get Started With MongoDB Atlas</a>
+                </div>
+                <p>Please note that you should already have a basic knowledge of HTML, CSS, and Python 
+                    before continuing.
+                </p>
+            </section>
+            <section class="main-section" id="flask_app">
+                <header><h1>Flask App</h1></header>
+                <p>
+                    To get started, create a new project directory. Open your terminal within this 
+                    directory and create a Python virtual environment. This ensures that project 
+                    dependencies do not conflict with others on your machine. Keep in mind that the 
+                    following are Windows commands. You may need to look up the alternatives for MacOS and 
+                    Linux.
+                </p>
+                <div class="code-container">
+                    <code>python -m venv venv</code>
+                </div>
+                <p>Next, make sure to activate your virtual environment using the terminal.</p>
+                <div class="code-container">
+                    <code>venv/Scripts/activate</code>
+                </div>
+                <p>Once your virtual environment is activated, you should then install the necessary 
+                    Python libraries. These are Flask and pymongo.
+                </p>
+                <div class="code-container">
+                    <code>pip install flask</code>
+                </div>
+                <div class="code-container">
+                    <code>pip install pymongo</code>
+                </div>
+                <p>Within your project directory, you should create a .py file as well as a folder called "static" 
+                    and another folder called "templates". Typically, HTML documents are stored in the templates 
+                    folder while CSS and JavaScript files are stored within the static folder. This is how Flask 
+                    displays pages. The following is a basic Flask application, which displays "Hello, World!"
+                </p>
+                <div class="code-container">
+                    <code>
+                        from flask import Flask<br><br>
+                        app = Flask(__name__)<br><br>
+                        @app.route("/")<br>
+                        def hello_world():<br>
+                        &emsp;return "&lt;p&gt;Hello, World!&lt;/p&gt;"<br><br>
+                        if __name__ == "__main__":<br>
+                        &emsp;app.run(host='0.0.0.0', port=8080, debug=True)
+                    </code>
+                </div>
+            </section>
+            <section class="main-section" id="atlas">
+                <header><h1>Atlas</h1></header>
+                <p>The first thing you will want to do is create an account with MongoDB Atlas. 
+                    You can find ways of getting started in the introduction and resources sections. 
+                    Once you have your Atlas account setup, find the connect button in your database. 
+                    Connect to your MongoDB shell in your terminal using the provided connection string 
+                    or by simply downloading the MongoDB shell.
+
+                </p>
+                <p>We are now going to create a new database for this project. You can type the following into 
+                    the terminal after you have entered your connection string and password into your terminal.
+                </p>
+                <div class="code-container">
+                    <code>show dbs</code>
+                </div>
+                <p>MongoDB will automatically create a new database when you use it and then declare 
+                    a collection within it.
+                </p>
+                <div class="code-container">
+                    <code>use hello</code>
+                </div>
+                <P>Within the hello database, we will create a collection and insert a document at the same time!</P>
+                <div class="code-container">
+                    <code>db.messages.insertOne({message: "Hello, MongoDB!"})</code>
+                </div>
+                <p>There is now a document inside of a new collection called messages. 
+                    Our goal will be to display this message on our Flask application.
+                </p>
+            </section>
+            <section class="main-section" id="pymongo">
+                <header><h1>Pymongo</h1></header>
+                <p>Now it is finally time to connect the MongoDB database to the Flask 
+                    application in order to display the message "Hello, MongoDB! Be aware of the following 
+                    when attempting to connect an application to MongoDB."
+                </p>
+                <ul>
+                    <li>Have your MongoDB connection string.</li>
+                    <li>Make sure your IP address is whitelisted in Atlas.</li>
+                    <li>Be sure to double check credentials.</li>
+                    <li>Never commit sensitive data to GitHub such as your MongoDB connection string.</li>
+                    <li>Double check database commands if you are unfamiliar with them.</li>
+                </ul>
+                <p>Below is the link to find the documentation for MongoDB's Python driver, 
+                    which is called Pymongo.
+                </p>
+                <div class="link-container">
+                    <a targe="_blank" href="https://pymongo.readthedocs.io/en/stable/">Pymongo Documentation</a>
+                </div>
+                <p>We will now take a look at the final Python Flask code.</p>
+                <div class="code-container">
+                    <code>
+                        from flask import Flask, render_template<br>
+                        from pymongo import MongoClient<br><br>
+                        app = Flask(__name__)<br><br>
+                        client = MongoClient(YOUR_MONGODB_URI_HERE)<br>
+                        db = client["hello"]<br>
+                        collection = db["messages"]<br><br>
+                        @app.route("/")<br>
+                        def hello_world():<br>
+                        &emsp;result = collection.find_one()<br>
+                        &emsp;return render_template("index.html", message=result)<br><br>
+                        if __name__ == "__main__":<br>
+                        &emsp;app.run(host='0.0.0.0', port=8080, debug=True)
+                    </code>
+                </div>
+                <p>Notice that the render_template is being used in order to return an HTML document. 
+                    This allows the Flask application to send the MongoDB query result to the HTML document. 
+                    Be aware as well that you must insert your own MongoDB URI in order to run this application. 
+                    If all of the steps have been followed, you should see "Hello, MongoDB!" on your screen!
+                </p>
+                <p>You can find the HTML template used in the resources section of this documentation.</p>
+            </section>
+            <section class="main-section" id="resources">
+                <header><h1>Resources</h1></header>
+                <p>The following resources are extremely helpful for learning more about Flask and MongoDB!</p>
+                <div class="link-container">
+                    <a target="_blank" href="https://flask.palletsprojects.com/en/3.0.x/quickstart/">Flask Quickstart</a>
+                    <a target="_blank" href="https://www.mongodb.com/docs/atlas/getting-started/">Get Started With MongoDB Atlas</a>
+                    <a targe="_blank" href="https://pymongo.readthedocs.io/en/stable/">Pymongo Documentation</a>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+</body>
+</html>
